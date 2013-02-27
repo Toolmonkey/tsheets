@@ -1,10 +1,7 @@
 #!/usr/bin/perl -w
 
 ####################################################################################
-### listJobs.pl lists jobs that are set up in the TSheets system.  It accepts    ###
-### a list of parent Job IDs as arguments (As many as you want).  If no parent   ###
-### IDs are specified on the command line, it uses the default '0', which will   ###
-### list all top-level jobs.                                                     ###
+### listJobs.pl adds a job to the TSheets system			 	 ###
 ####################################################################################
 
 use strict;
@@ -18,12 +15,12 @@ use Getopt::Long;
 ########################################
 my $jobName		= undef;
 my $jobType		= undef;
-my $parentID	= undef;
-my $isGlobal	= undef;
-my $assignAll	= undef;
-my $billable	= undef;
+my $parentID		= undef;
+my $isGlobal		= undef;
+my $assignAll		= undef;
+my $billable		= undef;
 my $alias		= undef;
-my $isBillable	= undef;
+my $isBillable		= undef;
 
 ########################################
 ### Storage for processed params     ###
@@ -35,15 +32,15 @@ my %params;
 my $result		= GetOptions(
 					'name=s'		=>	\$jobName,
 					'type=s'		=>	\$jobType,
-					'parentid=i'	=>	\$parentID,
+					'parentid=i'		=>	\$parentID,
 					'global'		=>	\$isGlobal,
-					'assigntoall'	=>	\$assignAll,
+					'assigntoall'		=>	\$assignAll,
 					'alias=i'		=>	\$alias,
 					'billable'		=>	\$isBillable,
 				);
 
 # Enforce basic data requirements and assemble API params...
-# The API requires: job_code_name
+
 
 if (!$jobName) { 
 	&usageError("You must speify a valid name for the job you're adding.");
@@ -125,7 +122,7 @@ if ($$response{status} eq "ok") {
 $ts->logout();
 
 ####################################################################################
-###								Routines                                         ###
+###				Routines                                         ###
 ####################################################################################
 
 sub usageError { 
