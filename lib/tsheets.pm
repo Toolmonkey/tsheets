@@ -277,36 +277,36 @@ sub _genericRequest {
 }
 
 sub _error {
-    my $self    = shift;
-    my $error   = shift;
-    $self->{logger}->error($error);
-    return {'status'=>'fail','last_error'=>$error};
+	my $self    = shift;
+	my $error   = shift;
+	$self->{logger}->error($error);
+	return {'status'=>'fail','last_error'=>$error};
 }
 
 sub _startTimer {
-    my $self = shift;
-    if ($self->{timer_running}) {
-        return $self->_error("The timer is already running.");
-    } else {
-        $self->{timer_running} = 1;
-        $self->{timer_start}   = [gettimeofday];
-        return {'status'=>'ok'};
-    }
+	my $self = shift;
+	if ($self->{timer_running}) {
+	    return $self->_error("The timer is already running.");
+	} else {
+	    $self->{timer_running} = 1;
+	    $self->{timer_start}   = [gettimeofday];
+	    return {'status'=>'ok'};
+	}
 }
 
 sub _stopTimer {
-    my $self        = shift;
-    my $end         = undef;
-    my $interval    = undef;
-    if ($self->{timer_running}) {
-        $end = [gettimeofday];
-        $interval = tv_interval $self->{timer_start}, $end;
-        $self->{timer_start} = undef;
-        $self->{timer_running} = undef;
-        return {'status'=>'ok','interval'=>$interval};
-    } else {
-        return $self->_error("The timer wasn't running.  Sorry!");
-    }
+	my $self        = shift;
+	my $end         = undef;
+	my $interval    = undef;
+	if ($self->{timer_running}) {
+	    $end = [gettimeofday];
+	    $interval = tv_interval $self->{timer_start}, $end;
+	    $self->{timer_start} = undef;
+	    $self->{timer_running} = undef;
+	    return {'status'=>'ok','interval'=>$interval};
+	} else {
+	    return $self->_error("The timer wasn't running.  Sorry!");
+	}
 }
 
 ################################# Public Methods #################################
@@ -510,8 +510,8 @@ sub addTimesheetNotes {
 }
 
 sub appendTimesheetNotes { 
-    my $self    = shift;
-    my $params  = shift;
+	my $self    = shift;
+	my $params  = shift;
 
 	$$params{token}  = $self->{token};
 	$$params{action} = 'replace_notes';
@@ -558,8 +558,8 @@ sub addManualTime {
 }
 
 sub logGPSLoc { 
-    my $self    = shift;
-    my $params  = shift;
+	my $self    = shift;
+	my $params  = shift;
 
 	if (defined($$params{latitude})) { 
 		if (defined($$params{longitude})) { 
@@ -572,27 +572,27 @@ sub logGPSLoc {
 	} else { 
 		return $self->_error("You must define latitude for the logGPSLoc call");
 	}
-    return undef;
+	return undef;
 }
 
 sub isUserLoggedIn { 
-    my $self    = shift;
-    my $params  = shift;
+	my $self    = shift;
+	my $params  = shift;
 
-    $$params{token}  = $self->{token};
-    $$params{action} = "get";
-    $$params{property} = 'logged_in';
-    return $self->_makeRequest($params);
+	$$params{token}  = $self->{token};
+	$$params{action} = "get";
+	$$params{property} = 'logged_in';
+	return $self->_makeRequest($params);
 }
 
 sub isUserClockedIn { 
-    my $self    = shift;
-    my $params  = shift;
+	my $self    = shift;
+	my $params  = shift;
 
-    $$params{token}  = $self->{token};
-    $$params{action} = "get";
-    $$params{property} = 'clocked_in';
-    return $self->_makeRequest($params);
+	$$params{token}  = $self->{token};
+	$$params{action} = "get";
+	$$params{property} = 'clocked_in';
+	return $self->_makeRequest($params);
 }
 
 sub getUserData { 
@@ -621,10 +621,10 @@ sub getTotalHours {
 		$property = "day_total";
 	}
 
-    $$params{token}  = $self->{token};
-    $$params{action} = "get";
-    $$params{property} = $property;
-    return $self->_makeRequest($params);
+	$$params{token}  = $self->{token};
+	$$params{action} = "get";
+	$$params{property} = $property;
+	return $self->_makeRequest($params);
 }
 
 
@@ -642,8 +642,8 @@ sub getTotalHours {
 #}
 
 sub getTimesheets { 
-    my $self    = shift;
-    my $params  = shift;
+	my $self    = shift;
+	my $params  = shift;
 
 	if (defined($$params{start_date})) { 
 		if (defined($$params{end_date})) { 
@@ -681,7 +681,7 @@ sub logout {
 	$self->{logger}->debug("Logging out");
 	my $request = $self->_makeRequest({'action'=>'logout','token'=>$self->{token}});
 	$self->{logger}->debug("Log out request completed with status: (" . $$request{status} . ")");
-    return $$request{status};
+	return $$request{status};
 }
 
 no Moose;
@@ -706,7 +706,7 @@ __END__
 
 	use strict;     # You use strict, right?
 	use tsheets;    # Use the tsheets module
-    
+	
 	my $ts = tsheets->new(
 		'config' => '/path/to/config.json', 
 		'username' => 'YourUsername',
@@ -1303,16 +1303,17 @@ __END__
 
 =head4 logFailedRequest
 
-    Sample: $ts->logFailedRequest({'data'=>'action%3Dclock_in%26job_code_id%3D123'});
+	Sample: $ts->logFailedRequest({'data'=>'action%3Dclock_in%26job_code_id%3D123'});
 
-    Params:
+	Params:
 
 		data
 			Required: Yes
 			Description: The API action (and accompanying parameters) that failed. 
 						 This string must be url-encoded to ensure any special characters 
 						 in the string are successfully passed to the API.
-    Purpose: The "log_failed_request" API action is useful if you're trying to synch 
+
+	Purpose: The "log_failed_request" API action is useful if you're trying to synch 
 			 actions that were completed while offline, and you encounter conflicts or 
 			 errors. If you cannot complete an action, you can at least log it so that 
 			 it can be reviewed later by the TSheets team to determine the cause of the 
