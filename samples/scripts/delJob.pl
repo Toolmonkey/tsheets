@@ -1,10 +1,7 @@
 #!/usr/bin/perl -w
 
 ####################################################################################
-### listJobs.pl lists jobs that are set up in the TSheets system.  It accepts    ###
-### a list of parent Job IDs as arguments (As many as you want).  If no parent   ###
-### IDs are specified on the command line, it uses the default '0', which will   ###
-### list all top-level jobs.                                                     ###
+### delJob deletes a specified job from the TSheets system			####
 ####################################################################################
 
 use strict;
