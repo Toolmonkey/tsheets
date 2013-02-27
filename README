@@ -26,7 +26,7 @@ This module requires these other modules and libraries:
 	LWP::UserAgent
 	XML::Simple
 	LWP::Protocol::https	# This is not used but is required
-							# in order to connect to the API endpoint using HTTPS
+                            # in order to connect to the API endpoint using HTTPS
 
 COPYRIGHT AND LICENCE
 
