@@ -65,7 +65,7 @@ sub usageError {
 		print "\n\n\n";
 	}
 
-	print "USAGE: $0 --name=JOB_NAME [--type=(regular|pto)] [--parentid=#######] [--global] [--assigntoall] [--alias=#####]\n";
+	print "USAGE: $0 --id=JOB_ID\n";
 	print "Parameter Details:\n";
 	print "\t--id=##########: \n";
 	print "\t\tRequired: YES\n";
