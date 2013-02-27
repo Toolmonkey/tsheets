@@ -1,14 +1,14 @@
 package tsheets::log;
 use Log::Log4perl;
 
-###############################################################################
+###################################################################################
 ### This is provided to enable basic logging for the tsheets module.  		###
 ### It's meant to be verbose, mildly obnoxious, and static.  If you 		###
 ### don't like it, feel free to override it by passing your own log4perl 	###
-### object to the tsheets new method using the logger param.				###
-###																			###
-### You use log4perl, right?  If not, you should consider it.  :-)			###
-###############################################################################
+### object to the tsheets new method using the logger param.			###
+###										###									###
+### You use log4perl, right?  If not, you should consider it.  :-)		###
+###################################################################################
 
 sub new { 
 	my $log_conf = <<END;
@@ -45,45 +45,46 @@ use parent;
 our $VERSION = '0.01';
 
 has 'config' 				=> 	( 	
-									'is' 		=> 	'rw', 	
-									'isa' 		=> 	'Str', 	
-									'required'	=> 	0 
-								);
+							'is' 		=> 	'rw', 	
+							'isa' 		=> 	'Str', 	
+							'required'	=> 	0 
+						);
 has 'client_url' 			=> 	( 	
-									'is' 		=> 	'rw', 	
-									'isa' 		=> 	'Str', 	
-									'required'	=> 	0 
-								);
+							'is' 		=> 	'rw', 	
+							'isa' 		=> 	'Str', 	
+							'required'	=> 	0 
+						);
 has 'token' 				=> 	( 	
-									'is' 		=> 	'ro', 	
-									isa 		=> 	'Str', 	
-									'required'	=> 	0 
-								);
-has 'api_key' 				=> 	( 	'is' 		=> 	'rw',     
-									'isa' 		=> 	'Str', 	
-									'required'	=> 	0 
-								);
+							'is' 		=> 	'ro', 	
+							'isa' 		=> 	'Str', 	
+							'required'	=> 	0 
+						);
+has 'api_key' 				=> 	( 	
+							'is' 		=> 	'rw',     
+							'isa' 		=> 	'Str', 	
+							'required'	=> 	0 
+						);
 has 'username' 				=> 	( 	
-									'is' 		=> 	'rw', 
-									'isa' 		=> 	'Str', 	
-									'required'	=> 	0 
-								);
+							'is' 		=> 	'rw', 
+							'isa' 		=> 	'Str', 	
+							'required'	=> 	0 
+						);
 has 'password' 				=> 	( 	
-									'is' 		=> 	'rw', 	
-									'isa' 		=> 	'Str', 	
-									'required'	=> 	0 
-								);
-has 'pants_on_the_ground' 	=> 	( 	
-									'is' 		=> 'rw', 	
-									'isa' 		=> 'Str', 	
-									'required' 	=> 	0, 	
-									'default' 	=> 	'false' 			
-								);
+							'is' 		=> 	'rw', 	
+							'isa' 		=> 	'Str', 	
+							'required'	=> 	0 
+						);
+has 'pants_on_the_ground' 	=> 		( 	
+							'is' 		=> 'rw', 	
+							'isa' 		=> 'Str', 	
+							'required' 	=> 	0, 	
+							'default' 	=> 	'false' 			
+						);
 has 'logger'				=> 	(	
-									'is' 		=> 'rw',		
-									'isa' 		=> 'Any',	
-									'required'	=> 	0,	
-								);
+							'is' 		=> 'rw',		
+							'isa' 		=> 'Any',	
+							'required'	=> 	0,	
+						);
 
 
 ################################# Structural Methods #################################
@@ -320,13 +321,13 @@ sub delJob {
 }
 
 sub addJob { 
-    my $self = shift;
-    return $self->_genericRequest('jobcode_add',shift);
+	my $self = shift;
+	return $self->_genericRequest('jobcode_add',shift);
 }
 
 sub editJob { 
-    my $self = shift;
-    return $self->_genericRequest('jobcode_edit',shift);
+	my $self = shift;
+	return $self->_genericRequest('jobcode_edit',shift);
 }
 
 sub listJobs { 
@@ -447,16 +448,16 @@ sub assignJobCode {
 }
 
 sub unassignJob { 
-    my $self    = shift;
-    my $params  = shift;
+	my $self    = shift;
+	my $params  = shift;
 
-    if (!$$params{job_code_id}) {
+	if (!$$params{job_code_id}) {
 		return $self->_error("You must provide a job_code_id for the unassignJob call");
-    }
+	}
 
-    $$params{token}  = $self->{token};
-    $$params{action} = 'jobcode_unassign';
-    return $self->_makeRequest($params);
+	$$params{token}  = $self->{token};
+	$$params{action} = 'jobcode_unassign';
+	return $self->_makeRequest($params);
 }
 
 sub addUser { 
@@ -479,33 +480,33 @@ sub addUser {
 }
 
 sub clockIn {
-    my $self = shift;
-    return $self->_genericRequest('clock_in',shift);
+	my $self = shift;
+	return $self->_genericRequest('clock_in',shift);
 }
 
 sub clockOut {
-    my $self = shift;
-    return $self->_genericRequest('clock_out',shift);
+	my $self = shift;
+	return $self->_genericRequest('clock_out',shift);
 }
 
 sub switchJobs {
-    my $self = shift;
-    return $self->_genericRequest('job_code_switch',shift);
+	my $self = shift;
+	return $self->_genericRequest('job_code_switch',shift);
 }
 
 sub addTimesheetNotes { 
-    my $self    = shift;
-    my $params  = shift;
+	my $self    = shift;
+	my $params  = shift;
 
-    $$params{token}  = $self->{token};
-    $$params{action} = 'replace_notes';
-    $$params{append} = 0;
-    if (defined($$params{notes})) {
-        if (length($$params{notes}) > 2000) {
-            $$params{notes} = substr($$params{notes},0,1999);
-        }
-    }
-    return $self->_makeRequest($params);
+	$$params{token}  = $self->{token};
+	$$params{action} = 'replace_notes';
+	$$params{append} = 0;
+	if (defined($$params{notes})) {
+		if (length($$params{notes}) > 2000) {
+			$$params{notes} = substr($$params{notes},0,1999);
+		}
+	}
+	return $self->_makeRequest($params);
 }
 
 sub appendTimesheetNotes { 
@@ -526,7 +527,7 @@ sub appendTimesheetNotes {
 
 sub addManualTime { 
 	my $self    = shift;
-    my $params  = shift;
+	my $params  = shift;
 
 	if (defined($$params{date})) { 
 		if (defined($$params{hours})) { 
