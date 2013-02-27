@@ -1,0 +1,8 @@
+The sample scripts will not function until they're configured
+with the appropriate account information.
+
+The sample configuration file is the basic format that the 
+tsheets module is looking for, should you pass it a config 
+file param.
+
+

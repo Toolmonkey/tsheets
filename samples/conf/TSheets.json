@@ -1,0 +1,6 @@
+{
+	"username" 		: "YOUR TSHEETS USERNAME",
+	"password" 		: "YOUR TSHEETS PASSWORD",
+	"api_key" 		: "YOUR TSHEETS API KEY",
+	"client_url" 	: "YOUR TSHEETS CLIENT URL"
+}
