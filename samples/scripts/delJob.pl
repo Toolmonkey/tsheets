@@ -27,7 +27,7 @@ my $result		= GetOptions(
 				);
 
 # Enforce basic data requirements and assemble API params...
-# The API requires: job_code_name
+# The API requires: job_code_id
 
 if (!$jobID) { 
 	&usageError("You must speify a valid ID for the job you're adding.");
