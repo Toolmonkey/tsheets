@@ -1,12 +1,12 @@
 tsheets version 0.01
 ====================
 
-The tsheets module is an OO interface to the tsheets RESTful 
+The tsheets module is an unofficial OO interface to the tsheets RESTful 
 http-based API.  
 
 This library is provided by a third-party and is not endorsed 
 or supported by TSheets (www.tsheets.com).  TSheets does not 
-provide support for this module. 
+provide support for this module. Please use at your own risk!
 
 INSTALLATION
 

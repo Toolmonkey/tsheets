@@ -697,6 +697,11 @@ __END__
 
 	Perl Library that provides a full, true OO interface to the TSheets Time Tracking system
 
+=head1 DISCLAIMER
+
+	This library is provided by a third-party and is not endorsed 
+	or supported by TSheets (www.tsheets.com).  TSheets does not 
+	provide support for this module. Please use at your own risk!
 
 =head1 EXPORT
 
@@ -920,7 +925,6 @@ __END__
 
 =head2 Job Related Methods
 
-=over 4
 
 =head4 addJob
 
@@ -1319,7 +1323,6 @@ __END__
 			 it can be reviewed later by the TSheets team to determine the cause of the 
 			 failure/conflict. 
 
-=back
 
 =head1 SEE ALSO
 
