@@ -921,7 +921,17 @@ __END__
 
 	Sample: $ts->getTotalHours({});
 	Params:
-	Purpose:
+		period
+			Required: No
+			Description: Specifies the duration of the report. "day" returns a single 
+				     day and "week" returns a single week.  Defaults to "day" if 
+				     undefined.
+		username
+			Required: No
+			Description: Specified the user that you want to report on. 
+				     If undefined, the current user is assumed.  
+
+	Purpose: Returns the number of hours an employee has logged in the last day or week.
 
 =head2 Job Related Methods
 
