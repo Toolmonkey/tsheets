@@ -34,11 +34,11 @@ SYNOPSYS
         use tsheets;    # Use the tsheets module
     
         my $ts = tsheets->new(
-            'config'              => '/path/to/config.json', 
-            'username'            => 'YourUsername',
-            'password'            => 'YourPassword',
-            'api_key'             => 'YourAPIKey',
-            'client_url'          => 'YourClientURL',
+            'config' => '/path/to/config.json', 
+            'username' => 'YourUsername',
+            'password' => 'YourPassword',
+            'api_key'   => 'YourAPIKey',
+            'client_url' => 'YourClientURL',
             'pants_on_the_ground' => 'false', 
         );
 
@@ -47,8 +47,49 @@ SYNOPSYS
         $ts->logout();
 
 METHODS
-
   Operational Methods
+   new
+        Sample: my $ts = tsheets->new(
+                'config' => '/path/to/config.json',
+                'username' => 'YourUsername',
+                'password' => 'YourPassword',
+                'api_key'   => 'YourAPIKey',
+                'client_url' => 'YourClientURL',
+                'pants_on_the_ground' => 'false',
+            );
+        Params:
+            config
+                Required: No
+                Description: Defines the path to a configuration file that 
+                     containes the values for all of the following 
+                     directives.  If config is defined, all of the 
+                     following directives are optional.
+            username
+                Required: Yes, unless config contains a path to a file that defines this param
+                Description: Defines your username
+
+            password
+                Required: Yes, unless config contains a path to a file that defines this param
+                Description: Defines your password
+
+            api_key
+                Required: Yes, unless config contains a path to a file that defines this param
+                Description: Defines your API key
+    
+            client_url
+                Required: Yes, unless config contains a path to a file that defines this param
+                Description: Defines the URL that this API uses to talk to TSheets.  It's strongly
+                     reccomended that you use HTTPS.  
+
+            pants_on_the_ground
+                Required: No.  
+                Description: This is a very optional param that you should never set to "true" 
+                     in a production environment!  If set to true, it will log sensitive
+                     data and leave you lookin' like a fool with your pants on the ground.
+                     Don't get caught with your pants on the ground!  Don't enable this in 
+                     a production environment!  You've been warned!
+
+        Purpose: Creates a new TSheets object.
 
    logout
         Sample: $ts->logout();
@@ -58,7 +99,6 @@ METHODS
         Purpose: Ends your TSheets API session
 
   User Related Methods
-
    addUser
         Sample: $ts->addUser({
                         'fname'=>'Elmer',
@@ -233,7 +273,17 @@ METHODS
    getTotalHours
         Sample: $ts->getTotalHours({});
         Params:
-        Purpose:
+            period
+                Required: No
+                Description: Specifies the duration of the report. "day" returns a single 
+                     day and "week" returns a single week.  Defaults to "day" if 
+                     undefined.
+            username
+                Required: No
+                Description: Specified the user that you want to report on. 
+                     If undefined, the current user is assumed.  
+
+        Purpose: Returns the number of hours an employee has logged in the last day or week.
 
   Job Related Methods
    addJob
