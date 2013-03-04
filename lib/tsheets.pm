@@ -9,8 +9,11 @@ use Log::Log4perl;
 ###################################################################################
 
 sub new { 
+	my $logLevel = shift;
+	if (!$logLevel) { $logLevel = 'DEBUG'; }
+
 	my $log_conf = <<END;
-		log4perl.category.TSheets          = DEBUG, Screen
+		log4perl.category.TSheets          = $logLevel, Screen
 
 		log4perl.appender.Screen                            = Log::Log4perl::Appender::Screen
 		log4perl.appender.Screen.stderr                     = 0
@@ -84,6 +87,12 @@ has 'logger'				=> 	(
 							'required'	=> 	0,	
 						);
 
+has 'log_level'				=>	(
+                            'is'        => 'rw',
+                            'isa'       => 'Str',
+                            'required'  =>  0,
+						);
+
 
 ################################# Structural Methods #################################
 
@@ -93,7 +102,11 @@ sub BUILD {
 	my $config;
 
 	unless (ref $self->{logger} eq "Log::Log4perl::Logger") { 
-		$self->{logger} = tsheets::log::new;
+		if ($self->{log_level}) { 
+			$self->{logger} = tsheets::log::new($self->{log_level});
+		} else { 
+			$self->{logger} = tsheets::log::new('DEBUG');
+		}
 	}
 
 	$self->{logger}->debug("Building TSheets Object...");
