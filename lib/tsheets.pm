@@ -740,6 +740,50 @@ __END__
 
 =head2 Operational Methods 
 
+=head4 new
+
+	Sample: my $ts = tsheets->new(
+                	'config' => '/path/to/config.json',
+                	'username' => 'YourUsername',
+                	'password' => 'YourPassword',
+                	'api_key'   => 'YourAPIKey',
+                	'client_url' => 'YourClientURL',
+                	'pants_on_the_ground' => 'false',
+        	);
+	Params:
+		config
+			Required: No
+			Description: Defines the path to a configuration file that 
+				     containes the values for all of the following 
+				     directives.  If config is defined, all of the 
+				     following directives are optional.
+		username
+			Required: Yes, unless config contains a path to a file that defines this param
+			Description: Defines your username
+
+		password
+			Required: Yes, unless config contains a path to a file that defines this param
+			Description: Defines your password
+
+		api_key
+			Required: Yes, unless config contains a path to a file that defines this param
+			Description: Defines your API key
+	
+		client_url
+			Required: Yes, unless config contains a path to a file that defines this param
+			Description: Defines the URL that this API uses to talk to TSheets.  It's strongly
+				     reccomended that you use HTTPS.  
+
+		pants_on_the_ground
+			Required: No.  
+			Description: This is a very optional param that you should never set to "true" 
+				     in a production environment!  If set to true, it will log sensitive
+				     data and leave you lookin' like a fool with your pants on the ground.
+				     Don't get caught with your pants on the ground!  Don't enable this in 
+				     a production environment!  You've been warned!
+
+	Purpose: Creates a new TSheets object.
+
 =head4 logout
 
 	Sample: $ts->logout();
