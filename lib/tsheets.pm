@@ -6,8 +6,6 @@ use Log::Log4perl;
 ### It's meant to be verbose, mildly obnoxious, and static.  If you 		###
 ### don't like it, feel free to override it by passing your own log4perl 	###
 ### object to the tsheets new method using the logger param.			###
-###										###									###
-### You use log4perl, right?  If not, you should consider it.  :-)		###
 ###################################################################################
 
 sub new { 
@@ -96,21 +94,18 @@ sub BUILD {
 
 	unless (ref $self->{logger} eq "Log::Log4perl::Logger") { 
 		$self->{logger} = tsheets::log::new;
-		$self->{logger}->info("USING INTERNAL LOGGER!");
-	} else { 
-		$self->{logger}->info("USING PROVIDED LOGGER!");
 	}
 
 	$self->{logger}->debug("Building TSheets Object...");
 	if ($self->config) { 
 		if (-e $self->config) { 
-			$self->{logger}->debug("Reading $self->config...");
+			$self->{logger}->debug("Reading " . $self->config);
 			open (READ_TSHEETS_CONFIG, $self->config);
 			@tsheets_config = <READ_TSHEETS_CONFIG>;
 			close(READ_TSHEETS_CONFIG);
-			$self->{logger}->debug("Parsing $self->config");
+			$self->{logger}->debug("Parsing " . $self->config);
 			$config = decode_json(join(" ", @tsheets_config));
-			$self->{logger}->debug("Finished parsing $self->config");
+			$self->{logger}->debug("Finished parsing " . $self->config);
 			if (defined($$config{username})) { 
 				$self->{username} = $$config{username};
 				if (defined($$config{password})) { 
@@ -163,6 +158,8 @@ sub BUILD {
 	my $login = $self->_login();
 	unless ($login eq "ok") { 
 		$self->{logger}->fatal("Unable to log into TSheets!");
+	} else { 
+		$self->{logger}->debug("Successfully logged into TSheets");
 	}
 	$self->{logger}->debug("Finished Building tshets object...");
 }
@@ -672,8 +669,8 @@ sub getTimesheets {
 }
 
 sub logFailedRequest { 
-	# log_failed_request
-	# data: Required
+	my $self = shift;
+        return $self->_genericRequest("log_failed_request",shift);
 }
 
 sub logout { 
