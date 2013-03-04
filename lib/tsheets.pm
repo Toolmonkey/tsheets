@@ -201,17 +201,24 @@ sub _getURL {
 }
 
 sub _makeRequest { 
-	my $self = shift;
-	my $params = shift;
+	my $self 	= shift;
+	my $params 	= shift;
 	my $paramsArray = ();
-	my $ua = LWP::UserAgent->new;
-	my $method = "post";
+	my $format	= "XML";
+	my $ua 		= LWP::UserAgent->new;
+	my $method 	= "post";
 	my $URL;
 	my @queryStringParams;
 	my $response;
 	$self->{logger}->debug("Assembling Request Parameters");
 	$ua->timeout(10);
 	$ua->env_proxy;
+
+	if (defined($$params{output_format}) && $$params{output_format} eq "json") { 
+		$format = "JSON";
+	} else { 
+		$format = "XML";
+	}
 
 	if (defined($$params{method})) {
 		if (lc($$params{method}) eq "post") { 
@@ -249,7 +256,11 @@ sub _makeRequest {
 	}
 	if ($response->is_success) { 
 		$self->{logger}->debug("The response from TSheets was successful! Decoding returned content");
-		return XMLin($response->decoded_content);
+		if ($format eq "XML") { 
+			return XMLin($response->decoded_content);
+		} else { 
+			return decode_json($response->decoded_content);
+		}
 		$self->{logger}->debug("FInished decoding content from TSheets");
 	} else { 
 		return $self->_error("The request to ($URL) resulted in this error: (" . $response->status_line . ")");
@@ -624,19 +635,22 @@ sub getTotalHours {
 	return $self->_makeRequest($params);
 }
 
-
-################################################################################
-### Oops! This action is currently only supported with the JSON output_format###
-### I guess I should handle this, huh? 										 ###
-################################################################################
+################################################
+### TODO: This is undocumented and untested. ###
+### TODO: Document and test!                 ###
+################################################
+#
 #sub getProjectHours { 
 #    my $self    = shift;
 #    my $params  = shift;
 #
 #    $$params{token}  = $self->{token};
 #    $$params{action} = "get_project_hours";
+#    $$params{output_format} = "json";
+#
 #    return $self->_makeRequest($params);
 #}
+#############################################
 
 sub getTimesheets { 
 	my $self    = shift;
