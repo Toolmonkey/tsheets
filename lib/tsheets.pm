@@ -259,6 +259,7 @@ sub _makeRequest {
 		if ($format eq "XML") { 
 			return XMLin($response->decoded_content);
 		} else { 
+			print Dumper(decode_json($response->decoded_content));
 			return decode_json($response->decoded_content);
 		}
 		$self->{logger}->debug("FInished decoding content from TSheets");
@@ -349,6 +350,15 @@ sub listJobs {
 	my $response 		= undef;
 	my $countedJobs		= 0;
 	my $interval		= undef;
+
+
+	# Make sure that this is hard-coded to the XML
+	# format.  Until I can compensate for the 
+	# dramatic differences between the JSON and 
+	# XML responses,  we'll have to force XML for 
+	# certain calls.
+
+	$$params{output_format} = "xml";
 
 	$$params{action} = 'get_jobcodes';
 	$$params{token}  = $self->{token};
