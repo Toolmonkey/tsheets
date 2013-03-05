@@ -1,34 +1,3 @@
-package tsheets::log;
-use Log::Log4perl;
-
-###################################################################################
-### This is provided to enable basic logging for the tsheets module.  		###
-### It's meant to be verbose, mildly obnoxious, and static.  If you 		###
-### don't like it, feel free to override it by passing your own log4perl 	###
-### object to the tsheets new method using the logger param.			###
-###################################################################################
-
-sub new { 
-	my $logLevel = shift;
-	if (!$logLevel) { $logLevel = 'DEBUG'; }
-
-	my $log_conf = <<END;
-		log4perl.category.TSheets          = $logLevel, Screen
-
-		log4perl.appender.Screen                            = Log::Log4perl::Appender::Screen
-		log4perl.appender.Screen.stderr                     = 0
-		log4perl.appender.Screen.layout                     = Log::Log4perl::Layout::PatternLayout
-		log4perl.appender.Screen.layout.ConversionPattern   = TS[%d %L:%p]: %m{chomp}%n
-
-END
-
-	Log::Log4perl::init( \$log_conf );
-	$log = Log::Log4perl::get_logger("TSheets");
-	return $log;
-}
-
-1;
-
 package tsheets;
 
 use strict;
@@ -40,6 +9,7 @@ use LWP::UserAgent;
 use Data::Dumper;
 use XML::Simple;
 use Time::HiRes qw(gettimeofday tv_interval);
+use tsheets::log;
 
 use parent;
 
@@ -167,7 +137,6 @@ sub BUILD {
 	if ($self->pants_on_the_ground eq "true") { 
 		$self->{logger}->debug("Got Token: (" . $self->{token} . ")");
 	}
-	$self->{logger}->debug("Logging Into TSHeets");
 	my $login = $self->_login();
 	unless ($login eq "ok") { 
 		$self->{logger}->fatal("Unable to log into TSheets!");
@@ -251,21 +220,34 @@ sub _makeRequest {
 		$self->{logger}->debug("BASE URL: $URL");
 
 		foreach my $key (keys %{$params}) {
-			$self->{logger}->debug("Adding Param: $key=$$params{$key}");
+			if ($self->pants_on_the_ground eq "true") {
+				$self->{logger}->debug("Adding Param: $key=$$params{$key}");
+			}
 			push @{$paramsArray}, "$key=$$params{$key}";
 		}
 
 		$URL .= join('&',@{$paramsArray});
-		$self->{logger}->debug("GET'ing: $URL");
+		if ($self->pants_on_the_ground eq "true") {
+			$self->{logger}->debug("Executing GET request For: $URL");
+		} else { 
+			$self->{logger}->debug("Executing GET Request");
+		}
 		$response = $ua->get($URL);
-		$self->{logger}->debug("GOT the afore mentioned URL");
+		$self->{logger}->debug("GET request complete");
 	} else { 
-		$self->{logger}->debug("POST'ing the following params to: $URL");
-		foreach my $key (sort keys %{$params}) { 
-			$self->{logger}->debug("KEY:($key) VALUE($$params{$key})");
+		if ($self->pants_on_the_ground eq "true") {
+			$self->{logger}->debug("POST'ing the following params to: $URL");
+		} else { 
+			$self->{logger}->debug("Executing POST request");
+		}
+
+		if ($self->pants_on_the_ground eq "true") {
+			foreach my $key (sort keys %{$params}) { 
+				$self->{logger}->debug("KEY:($key) VALUE($$params{$key})");
+			}
 		}
 		$response = $ua->post($self->_getURL,$params);
-		$self->{logger}->debug("POSTed to the afore mentioned URL: $URL");
+		$self->{logger}->debug("POST Request Complete");
 	}
 	if ($response->is_success) { 
 		$self->{logger}->debug("The response from TSheets was successful! Decoding returned content");
@@ -277,7 +259,7 @@ sub _makeRequest {
 		}
 		$self->{logger}->debug("FInished decoding content from TSheets");
 	} else { 
-		return $self->_error("The request to ($URL) resulted in this error: (" . $response->status_line . ")");
+		return $self->_error("The HTTP request resulted in this error: (" . $response->status_line . ")");
 	}	
 }
 

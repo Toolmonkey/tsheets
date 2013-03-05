@@ -11,6 +11,7 @@ WriteMakefile(
 				'Data::Dumper'          => 0,
 				'XML::Simple'           => 0,
 				'LWP::Protocol::https'	=> 0,
+				'File::lockf'			=> 0,
 	}, 
     ($] >= 5.012 ?     
       (ABSTRACT  		=> 'Unofficial Perl interface to the tsheets.com API',

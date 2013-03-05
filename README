@@ -25,6 +25,7 @@ This module requires these other modules and libraries:
     JSON::XS
     LWP::UserAgent
     XML::Simple
+	File::lockf
     LWP::Protocol::https    # This is not used but is required
                             # in order to connect to the API endpoint using HTTPS
 
