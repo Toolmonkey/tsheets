@@ -2,10 +2,10 @@ package tsheets::log;
 use Log::Log4perl;
 
 ###################################################################################
-### This is provided to enable basic logging for the tsheets module.        ###
-### It's meant to be verbose, mildly obnoxious, and static.  If you         ###
-### don't like it, feel free to override it by passing your own log4perl    ###
-### object to the tsheets new method using the logger param.            ###
+### This is provided to enable basic logging for the tsheets module.            ###
+### It's meant to be verbose, mildly obnoxious, and static.  If you             ###
+### don't like it, feel free to override it by passing your own log4perl        ###
+### object to the tsheets new method using the logger param.                    ###
 ###################################################################################
 
 sub new {

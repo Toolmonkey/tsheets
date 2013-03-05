@@ -151,6 +151,13 @@ sub DEMOLISH {
 	if (defined($self->{dbh})) { 
 		$self->{dbh}->disconnect();
 	}
+
+	# The logout method removes the token from the 
+	# object.  If the token is defined, we haven't 
+	# logged out.
+	if (defined($self->{token})) { 
+		$self->logout();	
+	}
 }
 
 
@@ -171,9 +178,7 @@ sub _login {
 		'username'=>$self->{username},
 		'password'=>$self->{password}
 	});
-
 	$self->{logger}->debug("Login request completed with status: " . $$request{status});
-
 	return $$request{status};
 }
 
@@ -697,9 +702,13 @@ sub logout {
 	$self->{logger}->debug("Logging out");
 	my $request = $self->_makeRequest({'action'=>'logout','token'=>$self->{token}});
 	$self->{logger}->debug("Log out request completed with status: (" . $$request{status} . ")");
+	if ($$request{status} eq "ok") { 
+		$self->{token} = undef;
+	}
 	return $$request{status};
 }
 
+__PACKAGE__->meta->make_immutable;
 no Moose;
 1;
 __END__
