@@ -16,7 +16,7 @@ sub new {
         log4perl.category.TSheets          = $logLevel, Screen
 
         log4perl.appender.Screen                            = Log::Log4perl::Appender::Screen
-        log4perl.appender.Screen.stderr                     = 0
+        log4perl.appender.Screen.stderr                     = 1
         log4perl.appender.Screen.layout                     = Log::Log4perl::Layout::PatternLayout
         log4perl.appender.Screen.layout.ConversionPattern   = TS[%d %L:%p]: %m{chomp}%n
 
